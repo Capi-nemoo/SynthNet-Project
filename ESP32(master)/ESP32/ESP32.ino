@@ -1,60 +1,113 @@
 
+#include <WebServer.h>
+#include <Wire.h>
 // Load Wi-Fi library
 #include <WiFi.h>
-
+#include "htmlCity.h" //CAMBIAR A .H ARCHI OJO IMPOPRTANTEEE
 // Replace with your network credentials
 const char* ssid = "18662675";
 const char* password = "Aluna18662675*";
-
+bool isDifferent = false;
+String checklastCity = "xd";
+String cityName = "xd";
 // Set web server port number to 80
-WiFiServer server(80);
+WebServer server(90);
 
 // Variable to store the HTTP request
 String header;
 
-// Auxiliar variables to store the current output state
-String output26State = "off";
-String output27State = "off";
-
-// Assign output variables to GPIO pins
-const int output26 = 26;
-const int output27 = 27;
-
-// Current time
-unsigned long currentTime = millis();
-// Previous time
-unsigned long previousTime = 0; 
-// Define timeout time in milliseconds (example: 2000ms = 2s)
-const long timeoutTime = 2000;
-
 void setup() {
-  Serial.begin(115200);
-  // Initialize the output variables as outputs
-  pinMode(output26, OUTPUT);
-  pinMode(output27, OUTPUT);
-  // Set outputs to LOW
-  digitalWrite(output26, LOW);
-  digitalWrite(output27, LOW);
-    
-  int estado;
-  // Connect to Wi-Fi network with SSID and password
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  // Print local IP address and start web server
-  Serial.println("");
-  Serial.println("WiFi connected.");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
-  server.begin();
+    Wire.begin();
+    Serial.begin(115200);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\nWiFi connected.");
+    Serial.println("IP address: " + WiFi.localIP().toString());
+
+    server.on("/", HTTP_GET, []() {
+        server.send(200, "text/html", HTML_PAGE); 
+            
+    });
+
+    // datos del formulario
+    server.on("/submit", HTTP_GET, []() {
+        cityName = server.arg("cityName");  // Obtener el valor del parámetro cityName
+        Serial.println("Received city name: " + cityName);
+        //checkCity = cityName;
+        server.send(200, "text/plain", "Received city name: " + cityName);
+    });
+
+    server.begin();
 }
 
-void loop(){
-  WiFiClient client = server.available();   // Listen for incoming clients
+void i2cCity(){
+
+
+}
+void i2cUNO(){
+
+}
+void i2cAPICity(){
+
+}
+
+void i2cAPItodolist(){
+
+}
+
+void checkCity(){
+  if (cityName == checklastCity)
+  {
+   isDifferent = false;
+  }
+
+  if (cityName != checklastCity)
+  {
+   isDifferent = true;
+   checklastCity = cityName;
+   delay(4000);
+
+  }
+
+
+if (isDifferent == true)
+{
+  i2cCity();
+  Serial.println("funciono! Rena sos un crack, esto es que fue diferente , se ejecuta wire");
+  delay(2000);
+
+}
+if (isDifferent == false)
+{
+  Serial.println("funciono!");
+  delay(500);
+
+}
+
+}
+
+void loop() {
+  //Leer ciudad del website y actualizar variable funcion wire de envio al ESP API OJOO
+  //ira dentro de otro funcion dentro de otra funcion el wire para esp
+  //                          ^
+server.handleClient(); //<----|
+ //                          /             
+    checkCity();//  <------_/
+
+//Obtener datos arduino UNO
+//tengo qu usar el truco de comodinloco que invente el otro diA
+
+
+}
+
+//codigo example
+//void loop(){
+
+  
+  /*WiFiClient client = server.available();   // Listen for incoming clients
   int estado = 0;
   if (client) {                             // If a new client connects,
     currentTime = millis();
@@ -152,5 +205,5 @@ void loop(){
     client.stop();
     Serial.println("Client disconnected.");
     Serial.println("");
-  }
-}
+  }*/
+//}
