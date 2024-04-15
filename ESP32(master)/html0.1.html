@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ciudades y Variables</title>
+    <script>
+        function mostrarVariables() {
+            // Obtiene la ciudad seleccionada
+            var ciudad = document.getElementById("ciudadSeleccionada").value;
+            
+            // Variables a mostrar
+            var variable1 = "Variable 1 para " + ciudad;
+            var variable2 = "Variable 2 para " + ciudad;
+            var variable3 = "Variable 3 para " + ciudad;
+            var variable4 = "Variable 4 para " + ciudad;
+            var variable5 = "Variable 5 para " + ciudad;
+            
+            // Construye el texto a mostrar
+            var texto = variable1 + "<br>" + variable2 + "<br>" + variable3 + "<br>" + variable4 + "<br>" + variable5;
+            
+            // Muestra el texto en el div 'resultados'
+            document.getElementById("resultados").innerHTML = texto;
+        }
+    </script>
+</head>
+<body>
+
+<h2>Elige una ciudad</h2>
+<select id="ciudadSeleccionada" onchange="mostrarVariables()">
+    <option value="Lubbock">Lubbock</option>
+    <option value="Houston">Houston</option>
+    <option value="Miami">Miami</option>
+    <option value="Berlin">Berlin</option>
+</select>
+
+<div id="resultados" style="margin-top: 20px;">
+    <!-- Aquí se mostrarán las variables después de elegir una ciudad -->
+</div>
+
+</body>
+</html>
