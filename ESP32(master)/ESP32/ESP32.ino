@@ -3,7 +3,7 @@
 #include <Wire.h>
 // Load Wi-Fi library
 #include <WiFi.h>
-#include "htmlCity.h" //CAMBIAR A .H ARCHI OJO IMPOPRTANTEEE
+#include "htmlCity.h"  //CAMBIAR A .H ARCHI OJO IMPOPRTANTEEE
 // Replace with your network credentials
 const char* ssid = "18662675";
 const char* password = "Aluna18662675*";
@@ -12,102 +12,105 @@ String checklastCity = "xd";
 String cityName = "xd";
 // Set web server port number to 80
 WebServer server(90);
+//definicion de data variable a manda al arduino mega
 
 // Variable to store the HTTP request
 String header;
-
+//sada,scl
+#define SDA_PIN 18  // Define el número de pin para SDA
+#define SCL_PIN 19  // Define el número de pin para SCL
 void setup() {
-    Wire.begin();
-    Serial.begin(115200);
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
+  Wire.begin(SDA_PIN, SCL_PIN);
+  Serial.begin(115200);
+  Serial.println("\nWiFi connected.");
     Serial.println("\nWiFi connected.");
-    Serial.println("IP address: " + WiFi.localIP().toString());
+    delay(2000);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected.");
+  Serial.println("IP address: " + WiFi.localIP().toString());
+  
+  server.on("/", HTTP_GET, []() {
+    server.send(200, "text/html", HTML_PAGE);
+  });
 
-    server.on("/", HTTP_GET, []() {
-        server.send(200, "text/html", HTML_PAGE); 
-            
-    });
+  // datos del formulario
+  server.on("/submit", HTTP_GET, []() {
+    cityName = server.arg("cityName");  // Obtener el valor del parámetro cityName
+    Serial.println("Received city name: " + cityName);
+    //checkCity = cityName;
+    server.send(200, "text/plain", "Received city name: " + cityName);
+  });
 
-    // datos del formulario
-    server.on("/submit", HTTP_GET, []() {
-        cityName = server.arg("cityName");  // Obtener el valor del parámetro cityName
-        Serial.println("Received city name: " + cityName);
-        //checkCity = cityName;
-        server.send(200, "text/plain", "Received city name: " + cityName);
-    });
-
-    server.begin();
+  server.begin();
 }
 
-void i2cCity(){
-
-
+void i2cCity() {
+  //Tiene que mandar los datos del string al espAPI
+  Serial.println("esdsdfsssssdffsdfdsfxitos");
+  Wire.beginTransmission(2); //esclavo con dirección 2
+  Wire.write(cityName.c_str()); // Convierte a string
+  byte error = Wire.endTransmission(); // Finaliza la transmisión y checka
+  if (error == 0) {
+    Serial.println("exitos");
+  } else {
+    Serial.print("Error");
+    Serial.println(error);
+  }
 }
-void i2cUNO(){
 
+void i2cUNO() {
+  //tiene que recibir primero los datos del arduino UNO para mandarlos al mega2560
 }
-void i2cAPICity(){
-
-}
-
-void i2cAPItodolist(){
-
+void i2cityReceive() {
+  //Tiene que recibir lso datos del espAPI y mandarlos al mega
 }
 
-void checkCity(){
-  if (cityName == checklastCity)
-  {
-   isDifferent = false;
+void i2cAPItodolist() {
+  //recibir los datos del espAPI y mandarlos al MEGA250
+}
+
+void checkCity() {
+  if (cityName == checklastCity) {
+    isDifferent = false;
   }
 
-  if (cityName != checklastCity)
-  {
-   isDifferent = true;
-   checklastCity = cityName;
-   delay(4000);
-
+  if (cityName != checklastCity) {
+    isDifferent = true;
+    checklastCity = cityName;
+    delay(4000);
   }
 
 
-if (isDifferent == true)
-{
-  i2cCity();
-  Serial.println("funciono! Rena sos un crack, esto es que fue diferente , se ejecuta wire");
-  delay(2000);
-
-}
-if (isDifferent == false)
-{
-  Serial.println("funciono!");
-  delay(500);
-
-}
-
+  if (isDifferent == true) {
+    i2cCity();
+    Serial.println("funciono! Rena sos un crack, esto es que fue diferente , se ejecuta wire");
+    delay(2000);
+  }
+  if (isDifferent == false) {
+    Serial.println("funciono!");
+    delay(500);
+  }
 }
 
 void loop() {
-  //Leer ciudad del website y actualizar variable funcion wire de envio al ESP API OJOO
-  //ira dentro de otro funcion dentro de otra funcion el wire para esp
-  //                          ^
-server.handleClient(); //<----|
- //                          /             
-    checkCity();//  <------_/
+  //Leer ciudad del website y excribir funcion wire de envio al ESP API OJOO
+  //ira dentro de otro funcion dentro de otra funcion el wire para esp               ^
+  server.handleClient();  //<--|
+  checkCity();            //  <------_/
 
-//Obtener datos arduino UNO
-//tengo qu usar el truco de comodinloco que invente el otro diA
-
-
+  //Obtener datos arduino UNO
+  //tengo qu usar el truco de comodinloco que invente el otro diA
 }
 
-//codigo example
+//codigo examples
 //void loop(){
 
-  
-  /*WiFiClient client = server.available();   // Listen for incoming clients
+
+/*WiFiClient client = server.available();   // Listen for incoming clients
   int estado = 0;
   if (client) {                             // If a new client connects,
     currentTime = millis();
