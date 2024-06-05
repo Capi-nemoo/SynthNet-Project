@@ -54,3 +54,11 @@
 ├── CppProperties.json       # Configuración de propiedades
 └── README.md                # Descripción del proyecto
 
+Mega 2560     ESP32-S2       Arduino UNO
+---------     -------        -----------
+GND --------- GND ---------- GND
+5V ---------- VCC (5V) ----- 5V
+20 (SDA) ---- 21 (SDA) ----- A4 (SDA)
+21 (SCL) ---- 22 (SCL) ----- A5 (SCL)
+
+
