@@ -8,8 +8,5 @@
         "xutility": "cpp",
         "ostream": "cpp"
     },
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.exclude": {
-        "src\\esp32\\master\\comments.cpp": false
-    }
+    "C_Cpp.errorSquiggles": "disabled"
 }
