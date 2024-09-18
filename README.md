@@ -4,7 +4,7 @@ The primary goal of Synth Net is to develop an integrated system that enables ef
 
 
 
-![Screenshot 2024-09-18 at 5.35.40 AM](/Users/renatorr/Downloads/coding/Github/SynthNet-Project-University/docs/images/Screenshot 2024-09-18 at 5.35.40 AM.png)
+![Screenshot 2024-09-18 at 5.35.40 AM](docs/images/Screenshot 2024-09-18 at 5.35.40 AM.png)
 
 ------
 
@@ -122,7 +122,7 @@ The development of Synth Net was divided into several stages:
 
 3. **Testing**: Functional testing was performed to ensure correct communication between devices over I2C, while performance testing focused on data accuracy and transmission speed.
 
-   ![circuit](/Users/renatorr/Downloads/coding/Github/SynthNet-Project-University/docs/README_FILES/circuitDiagram/circuit.jpg)
+   ![circuit](docs/README_FILES/circuitDiagram/circuit.jpg)
 
 ---
 
@@ -150,7 +150,7 @@ Below are screenshots and images showing the system in operation:
 
 
 
-![diagrams](/Users/renatorr/Downloads/coding/Github/SynthNet-Project-University/docs/images/diagrams.png)
+![diagrams](docs/images/diagrams.png)
 
 ---
 
@@ -183,7 +183,7 @@ There are several opportunities to expand and improve the Synth Net system in th
 
 
 
-![Screenshot 2024-09-18 at 5.20.23 AM](/Users/renatorr/Documents/Screenshot 2024-09-18 at 5.20.23 AM.png)
+![Screenshot 2024-09-18 at 5.20.23 AM](docs/images/Screenshot 2024-09-18 at 5.20.23 AM.png)
 
 
 
